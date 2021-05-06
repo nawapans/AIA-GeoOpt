@@ -14,25 +14,43 @@
         """
         
 import Rhino.Geometry as rg
+import rhinoscriptsyntax as rs
+
 
 #1.
 #compute face normals using rg.Mesh.FaceNormals.ComputeFaceNormals()
 #output the vectors to a
 
-a = faceNormals
+#a = faceNormals
+a = []
+num_face =  len(m.Faces)
+for i in range(num_face):
+    norm = m.FaceNormals[i]
+    renorm = rg.Vector3d.Negate(norm)
+    a.append(renorm)
+
+print type(a)
 
 #2.
 #get the centers of each faces using rg.Mesh.Faces.GetFaceCenter()
 #store the centers into a list called centers 
 #output that list to b
 
-b = centers
+#b = centers
+b = []
+for i in range(num_face):
+    fc = m.Faces.GetFaceCenter(i)
+    b.append(fc)
 
 #3.
 #calculate the angle between the sun and each FaceNormal using rg.Vector3d.VectorAngle()
 #store the angles in a list called angleList and output it to c
 
-c = angleList
+#c = angleList
+c = []
+for i in range(num_face):
+    ang = rg.Vector3d.VectorAngle(a[i],s)
+    c.append(ang)
 
 
 #4. explode the mesh - convert each face of the mesh into a mesh
@@ -40,7 +58,17 @@ c = angleList
 #then iterate through each face of the copy, extract it using rg.Mesh.ExtractFaces
 #and store the result into a list called exploded in output d
 
+#d = exploded
+exploded = []
+num_new = len(rg.Mesh.Duplicate(m).Faces)
+m_new = m.Duplicate()
+for i in range(num_new):
+    face_mesh = m_new.Faces.ExtractFaces([num_new-i])
+    exploded.append(face_mesh)
+
 d = exploded
+e = m_new
+f = num_new
 
 #after here, your task is to apply a transformation to each face of the mesh
 #the transformation should correspond to the angle value that corresponds that face to it... 
