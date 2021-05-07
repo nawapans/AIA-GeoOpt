@@ -15,7 +15,7 @@
         
 import Rhino.Geometry as rg
 import rhinoscriptsyntax as rs
-
+import ghpythonlib.treehelpers as th
 
 #1.
 #compute face normals using rg.Mesh.FaceNormals.ComputeFaceNormals()
@@ -63,13 +63,31 @@ exploded = []
 num_new = len(rg.Mesh.Duplicate(m).Faces)
 m_new = m.Duplicate()
 for i in range(num_new):
-    face_mesh = m_new.Faces.ExtractFaces([num_new-i])
+    face_mesh = m_new.Faces.ExtractFaces([0])
     exploded.append(face_mesh)
 
 d = exploded
-e = m_new
+#e = m_new
 f = num_new
 
 #after here, your task is to apply a transformation to each face of the mesh
 #the transformation should correspond to the angle value that corresponds that face to it... 
 #the result should be a mesh that responds to the sun position... its up to you!
+
+"""
+Bonus tasks include:
+- Propose a different mesh to analyse
+- Provide a frame for the resulting mesh by moving edges according to the rg.Mesh.VertexNormals
+"""
+"""
+e = []
+for i in range(num_new):
+    list_edge = []
+    for l in d:
+        edge = l.GetNakedEdges()
+        list_edge.append(edge)
+    e.append(list_edge[i])
+
+g = th.list_to_tree(e)
+
+"""
