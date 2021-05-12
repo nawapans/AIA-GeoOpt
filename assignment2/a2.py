@@ -81,7 +81,7 @@ min_offset = minoff
 max_offset = maxoff
 
 for i in c:
-    remapped = ( (i-min(c)) / ( max(c) - min(c))  ) * (max_offset - min_offset) + min_offset
+    remapped = ( ((i-min(c)) * (max_offset - min_offset))  / ( max(c) - min(c) )  )  + min_offset
     remapped_angles.append(remapped)
 
 #1.move faces in relation to sun vector
